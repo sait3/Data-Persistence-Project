@@ -8,7 +8,6 @@ public class MainManager : MonoBehaviour
 {
     
     public Text HighNameScore;
-    public string hsn;
 
     public Brick BrickPrefab;
     public int LineCount = 6;
@@ -29,7 +28,7 @@ public class MainManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     { 
-        HighNameScore.text = $"Best Score: {(PlayerPrefs.HasKey("HighName") ? PlayerPrefs.GetString("HighName") : hsn)} : {(PlayerPrefs.HasKey("HighScore") ? PlayerPrefs.GetInt("HighScore") : 0)}";
+        HighNameScore.text = $"Best Score: {(PlayerPrefs.HasKey("HighName") ? PlayerPrefs.GetString("HighName") : "")} : {(PlayerPrefs.HasKey("HighScore") ? PlayerPrefs.GetInt("HighScore") : 0)}";
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -85,6 +84,7 @@ public class MainManager : MonoBehaviour
             PlayerPrefs.SetString("HighName", PlayerPrefs.GetString("CurrentName"));
             PlayerPrefs.SetInt("HighScore", m_Points);
             HighNameScore.text = $"Best Score: {PlayerPrefs.GetString("HighName")} : {PlayerPrefs.GetInt("HighScore")}";
+            PlayerPrefs.Save();
         }
     }
 }
