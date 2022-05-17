@@ -6,22 +6,30 @@ using UnityEngine.UI;
 
 public class MainManager : MonoBehaviour
 {
+    
+    public Text HighNameScore;
+    public string hsn;
+
     public Brick BrickPrefab;
     public int LineCount = 6;
     public Rigidbody Ball;
+    public static bool isHighScore = false;
 
     public Text ScoreText;
     public GameObject GameOverText;
+
     
     private bool m_Started = false;
     private int m_Points;
     
-    private bool m_GameOver = false;
+    public bool m_GameOver = false;
 
-    
+   
+
     // Start is called before the first frame update
     void Start()
-    {
+    { 
+        HighNameScore.text = $"Best Score: {(PlayerPrefs.HasKey("HighName") ? PlayerPrefs.GetString("HighName") : hsn)} : {(PlayerPrefs.HasKey("HighScore") ? PlayerPrefs.GetInt("HighScore") : 0)}";
         const float step = 0.6f;
         int perLine = Mathf.FloorToInt(4.0f / step);
         
@@ -72,5 +80,11 @@ public class MainManager : MonoBehaviour
     {
         m_GameOver = true;
         GameOverText.SetActive(true);
+        if(m_Points > (PlayerPrefs.HasKey("HighScore") ? PlayerPrefs.GetInt("HighScore") : 0 ))
+        {
+            PlayerPrefs.SetString("HighName", PlayerPrefs.GetString("CurrentName"));
+            PlayerPrefs.SetInt("HighScore", m_Points);
+            HighNameScore.text = $"Best Score: {PlayerPrefs.GetString("HighName")} : {PlayerPrefs.GetInt("HighScore")}";
+        }
     }
 }
